@@ -1,9 +1,9 @@
 import { useState } from "react";
-import useFetch from "../hooks/useFetch";
 
 const Search = () => {
   const [input, setinput] = useState("");
-  const [countryData, setCountryData] = useState(null)
+  const [error, setError] = useState(null);
+  const [weatherData, setWeatherData] = useState([]);
 
   const clear = () => {
     setinput("");
@@ -14,27 +14,41 @@ const Search = () => {
     date.getMonth() + 1
   }-${date.getDate()}T${date.getHours()}:${
     date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
-  }:${date.getMinutes() < 10 ? "0" + date.getse() : date.getse()}`;
+  }:${date.getMinutes() < 10 ? "0" + date.getSeconds() : date.getSeconds()}`;
 
-  // const location
-  const weatherData = useFetch(
-    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/${time}?key=ZJ7YEDFWPH3Z8GCJGY9M4XE88`
-  );
+  const handleSubmit = async (e) => {
+    if (input.length === 0) {
+      return setError("Please enter the city name");
+    }
+    e.preventDefault();
+    setinput("");
 
-  const handleSearch = () => {
-    const fetchedCountryData = useFetch(`https://restcountries.com/v3.1/name/${input.trim()}?fullText=true`)
-    setCountryData(fetchedCountryData[0])
-  }
+    try {
+      await fetch(
+        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${input}/${time}?key=ZJ7YEDFWPH3Z8GCJGY9M4XE88`
+      )
+        .then((response) => {
+          console.log(response);
+          if (!response.ok) {
+            return setError("Failed to fetch the data");
+          }
+          return response.json()
+        })
+        .then((data) => {
+          console.log(data)
+          setWeatherData(data);
+          setError(null);
+        });
+      console.log(weatherData);
+    } catch (error) {
+      console.log(error);
+      setError("AN error occured");
+    }
+  };
 
   return (
     <>
-      <form
-        action=""
-        onSubmit={(e) => {
-          e.preventDefault();
-          setinput("");
-        }}
-      >
+      <form action="" onSubmit={handleSubmit}>
         <label
           htmlFor="search"
           className=" bg-slate-800 w-fit p-2 px-5 rounded-3xl m-2 flex justify-center items-center gap-5"
@@ -46,7 +60,6 @@ const Search = () => {
               value={input}
               onChange={(e) => {
                 setinput(e.target.value);
-                handleSearch
               }}
               placeholder="Search for your preffered city..."
               className=" bg-slate-800 w-96 text-white flex justify-center items-center outline-none"
@@ -61,9 +74,10 @@ const Search = () => {
           </button>
         </label>
       </form>
-      <p>{input}</p>
-      <p>{time}</p>
-      <p>{weatherData}</p>
+      <p>input: {input}</p>
+      <p>time: {time}</p>
+      <p>status: {error}</p>
+      {weatherData && <p>{JSON.stringify(weatherData)}</p>}
     </>
   );
 };

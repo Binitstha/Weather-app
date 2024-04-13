@@ -5,83 +5,81 @@ const Search = () => {
   const [input, setinput] = useState("");
   const [error, setError] = useState(null);
   const [weatherData, setWeatherData] = useState([]);
-  const [suggestedCountry, setSuggestedCounty] = useState([]);
+  const [suggestedCities, setSuggestedCities] = useState([]);
 
   const clear = () => {
     setinput("");
   };
-  console.log(suggestedCountry);
+
   const date = new Date();
   const time = `${date.getFullYear()}-${
     date.getMonth() + 1
   }-${date.getDate()}T${date.getHours()}:${
     date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
-  }:${date.getMinutes() < 10 ? "0" + date.getSeconds() : date.getSeconds()}`;
+  }:${date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()}`;
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     if (input.length === 0) {
       return setError("Please enter the city name");
     }
-    e.preventDefault();
     setinput("");
 
     try {
-      await fetch(
+      const response = await fetch(
         `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${input}/${time}?key=ZJ7YEDFWPH3Z8GCJGY9M4XE88`
-      )
-        .then((response) => {
-          console.log(response);
-          if (!response.ok) {
-            return setError("Failed to fetch the data");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log(data);
-          setWeatherData(data);
-          setError(null);
-        });
-      console.log(weatherData);
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch the data");
+      }
+      const data = await response.json();
+      setWeatherData(data);
+      setError(null);
     } catch (error) {
       console.log(error);
-      setError("AN error occured");
+      setError("An error occurred");
     }
   };
+
   const handleWeatherData = () => {
     setWeatherData([]);
   };
+
   const countryFilter = (searchInput) => {
-    const filteredcountry = Object.keys(countryCityNames).flatMap(
+    const filteredCities = Object.entries(countryCityNames).flatMap(
       ([country, cities]) => {
         return cities
           .filter((city) =>
             city.toLowerCase().includes(searchInput.toLowerCase())
           )
-          .map(`${cities},${country}`);
+          .map((city) => ({ city, country }));
       }
     );
-    console.log(filteredcountry);
-    setSuggestedCounty(filteredcountry);
+    const slicedCities = filteredCities.slice(0, 10);
+    setSuggestedCities(slicedCities);
   };
-
+  const handleCountrySuggestion = () => {
+    setSuggestedCities([]);
+  };
   return (
     <>
       <form action="" onSubmit={handleSubmit}>
         <label
           htmlFor="search"
-          className=" bg-slate-800 w-fit p-2 px-5 rounded-3xl m-2 flex justify-center items-center gap-5"
+          className="bg-slate-800 w-fit p-2 px-5 rounded-3xl m-2 flex justify-center items-center gap-5"
         >
           <div className="flex justify-center items-center">
             <input
               type="text"
               id="search"
+              autoComplete="off"
               value={input}
               onChange={(e) => {
                 setinput(e.target.value);
                 countryFilter(e.target.value);
               }}
-              placeholder="Search for your preffered city..."
-              className=" bg-slate-800 w-96 text-white flex justify-center items-center outline-none"
+              placeholder="Search for your preferred city..."
+              className="bg-slate-800 w-96 text-white flex justify-center items-center outline-none"
             />
             <i
               onClick={clear}
@@ -93,22 +91,20 @@ const Search = () => {
           </button>
         </label>
       </form>
-      <button onClick={() => handleWeatherData()}>Clear Data</button>
+      <button onClick={handleWeatherData}>Clear Data</button>
       <p>input: {input}</p>
       <p>time: {time}</p>
       <p>status: {error}</p>
-      <p>suggested country</p>
-      {suggestedCountry.map((country) => {
-        return (
-          <ul key={country}>
-            <li>{country}</li>
-          </ul>
-        );
-      })}
-      <div>
-        {" "}
-        weather : {weatherData && <p>{JSON.stringify(weatherData)}</p>}
-      </div>
+      <p>suggested cities</p>
+      <button onClick={handleCountrySuggestion}>Clear Data</button>
+      {suggestedCities.map(({ city, country }, index) => (
+        <ul key={index}>
+          <li>
+            {city}, {country}
+          </li>
+        </ul>
+      ))}
+      <div>weather : {weatherData && <p>{JSON.stringify(weatherData)}</p>}</div>
     </>
   );
 };

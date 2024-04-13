@@ -126,7 +126,6 @@ export const countryCityNames =  {
       "Armstrong",
       "Arrecifes",
       "Arroyito",
-      "Arroyito",
       "Arroyito Challaco",
       "Arroyo Seco",
       "Arteaga",

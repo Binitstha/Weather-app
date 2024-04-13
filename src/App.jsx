@@ -1,8 +1,8 @@
-import Search from "./components/search/search"
+import Dashboard from "./components/Dashboard"
 function App() {
   return (
     <>
-    <Search/>
+    <Dashboard/>
     </>
   );
 }

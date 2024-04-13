@@ -2,7 +2,7 @@ import { useState } from "react";
 import { countryCityNames } from "../../../JSON/country.js";
 import { SuggestedCitiesBox } from "../search/suggestionBox.jsx";
 
-const Search = () => {
+export const Search = () => {
   const [input, setinput] = useState("");
   const [error, setError] = useState(null);
   const [weatherData, setWeatherData] = useState([]);
@@ -46,10 +46,6 @@ const Search = () => {
     }
   };
 
-  const handleWeatherData = () => {
-    setWeatherData([]);
-  };
-
   const countryFilter = (searchInput) => {
     const filteredCities = Object.entries(countryCityNames).flatMap(
       ([country, cities]) => {
@@ -62,9 +58,6 @@ const Search = () => {
     );
     const slicedCities = filteredCities.slice(0, 10);
     setSuggestedCities(slicedCities);
-  };
-  const handleCountrySuggestion = () => {
-    setSuggestedCities([]);
   };
 
   const handleCitySelection = (city) => {
@@ -111,17 +104,10 @@ const Search = () => {
           <SuggestedCitiesBox
             suggestedCities={suggestedCities}
             onCitySelection={handleCitySelection}
-            searching = {searching}
+            searching={searching}
           />
         )}
       </form>
-      <button onClick={handleWeatherData}>Clear Data</button>
-      <p>time: {time}</p>
-      <p>status: {error}</p>
-      <p>suggested cities</p>
-      <button onClick={handleCountrySuggestion}>Clear Data</button>
-
-      <div>weather : {weatherData && <p>{JSON.stringify(weatherData)}</p>}</div>
     </>
   );
 };

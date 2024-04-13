@@ -1,14 +1,17 @@
 import { useState } from "react";
-import { countryCityNames } from "../../JSON/country.js";
+import { countryCityNames } from "../../../JSON/country.js";
+import { SuggestedCitiesBox } from "../search/suggestionBox.jsx";
 
 const Search = () => {
   const [input, setinput] = useState("");
   const [error, setError] = useState(null);
   const [weatherData, setWeatherData] = useState([]);
   const [suggestedCities, setSuggestedCities] = useState([]);
+  const [searching, setSearching] = useState(false);
 
   const clear = () => {
     setinput("");
+    setSearching(false);
   };
 
   const date = new Date();
@@ -24,6 +27,7 @@ const Search = () => {
       return setError("Please enter the city name");
     }
     setinput("");
+    setSearching(false);
 
     try {
       const response = await fetch(
@@ -33,6 +37,7 @@ const Search = () => {
         throw new Error("Failed to fetch the data");
       }
       const data = await response.json();
+
       setWeatherData(data);
       setError(null);
     } catch (error) {
@@ -61,12 +66,19 @@ const Search = () => {
   const handleCountrySuggestion = () => {
     setSuggestedCities([]);
   };
+
+  const handleCitySelection = (city) => {
+    setinput(city);
+    setSearching(false);
+  };
   return (
     <>
-      <form action="" onSubmit={handleSubmit}>
+      <form action="" onSubmit={handleSubmit} className="relative z-20 ">
         <label
           htmlFor="search"
-          className="bg-slate-800 w-fit p-2 px-5 rounded-3xl m-2 flex justify-center items-center gap-5"
+          className={`${
+            searching ? "rounded-t-3xl" : "rounded-3xl"
+          } bg-slate-800 w-fit p-2 px-5 m-2 flex justify-center items-center gap-5`}
         >
           <div className="flex justify-center items-center">
             <input
@@ -75,6 +87,11 @@ const Search = () => {
               autoComplete="off"
               value={input}
               onChange={(e) => {
+                if (e.target.value) {
+                  setSearching(true);
+                } else {
+                  setSearching(false);
+                }
                 setinput(e.target.value);
                 countryFilter(e.target.value);
               }}
@@ -90,20 +107,20 @@ const Search = () => {
             <i className="fa-solid fa-magnifying-glass text-xl cursor-pointer"></i>
           </button>
         </label>
+        {input && (
+          <SuggestedCitiesBox
+            suggestedCities={suggestedCities}
+            onCitySelection={handleCitySelection}
+            searching = {searching}
+          />
+        )}
       </form>
       <button onClick={handleWeatherData}>Clear Data</button>
-      <p>input: {input}</p>
       <p>time: {time}</p>
       <p>status: {error}</p>
       <p>suggested cities</p>
       <button onClick={handleCountrySuggestion}>Clear Data</button>
-      {suggestedCities.map(({ city, country }, index) => (
-        <ul key={index}>
-          <li>
-            {city}, {country}
-          </li>
-        </ul>
-      ))}
+
       <div>weather : {weatherData && <p>{JSON.stringify(weatherData)}</p>}</div>
     </>
   );

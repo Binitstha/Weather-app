@@ -14,13 +14,7 @@ export const Search = () => {
     setSearching(false);
   };
 
-  const date = new Date();
-  const time = `${date.getFullYear()}-${
-    date.getMonth() + 1
-  }-${date.getDate()}T${date.getHours()}:${
-    date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
-  }:${date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()}`;
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.length === 0) {

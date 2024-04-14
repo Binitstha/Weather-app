@@ -1,25 +1,27 @@
 import { useState } from "react";
+import { PropTypes } from "prop-types";
 import { countryCityNames } from "../../../JSON/country.js";
 import { SuggestedCitiesBox } from "../search/suggestionBox.jsx";
 
-export const Search = () => {
+export const Search = ({ setWeatherData }) => {
   const [input, setinput] = useState("");
-  const [error, setError] = useState(null);
-  const [weatherData, setWeatherData] = useState([]);
   const [suggestedCities, setSuggestedCities] = useState([]);
   const [searching, setSearching] = useState(false);
+
+  const date = new Date();
+  const time = `${date.getFullYear()}-${
+    date.getMonth() + 1
+  }-${date.getDate()}T${date.getHours()}:${
+    date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+  }:${date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()}`;
 
   const clear = () => {
     setinput("");
     setSearching(false);
   };
 
- 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (input.length === 0) {
-      return setError("Please enter the city name");
-    }
     setinput("");
     setSearching(false);
 
@@ -33,10 +35,8 @@ export const Search = () => {
       const data = await response.json();
 
       setWeatherData(data);
-      setError(null);
     } catch (error) {
       console.log(error);
-      setError("An error occurred");
     }
   };
 
@@ -107,3 +107,7 @@ export const Search = () => {
 };
 
 export default Search;
+
+Search.propTypes = {
+  setWeatherData: PropTypes.func.isRequired,
+};

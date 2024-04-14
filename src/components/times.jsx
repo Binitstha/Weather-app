@@ -1,13 +1,8 @@
-// import { useState } from "react";
 import { PropTypes } from "prop-types";
+import { useEffect, useState } from "react";
 export const Times = ({ location }) => {
   const date = new Date();
-  //   const time = `${date.getFullYear()}-${
-  //     date.getMonth() + 1
-  //   }-${date.getDate()}T${date.getHours()}:${
-  //     date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
-  //   }:${date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()}`;
-
+  
   const months = [
     "JAN",
     "FEB",
@@ -31,21 +26,37 @@ export const Times = ({ location }) => {
     "FRIDAY",
     "SATURDAY",
   ];
-  const hour = date.getHours() > 12 ? date.getHours() % 12 : date.getHours();
-  const minute = date.getMinutes();
-  const second = date.getSeconds();
 
+  const [currentTime, setCurrentTime] = useState(new Date());
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const hour =
+    currentTime.getHours() > 12
+      ? currentTime.getHours() % 12
+      : currentTime.getHours();
+  const minute = currentTime.getMinutes();
+  const second = currentTime.getSeconds();
   return (
     <>
-      <div className="h-56 w-72 rounded-xl mx-20 m-10 flex flex-col justify-center items-center shadow-xl bg-slate-600 p-3">
-        <div>{location}</div>
-        <div>
-          {hour <= 10 ? `0${hour}`:hour}:{minute <= 10 ? `0${minute}`:minute}:{second <= 10 ? `0${second}`: second} {date.getHours() >= 12 ? "PM" : "AM"}
+      <div className="h-64 w-[30rem] rounded-xl flex flex-col justify-center items-center shadow-2xl bg-slate-600 p-3">
+        <div className="text-3xl w-fit h-20">{location}</div>
+        <div className="text-3xl">
+          {hour < 10 ? `0${hour}` : hour}:
+          {minute < 10 ? `0${minute}` : minute}:
+          {second < 10 ? `0${second}` : second}{" "}
+          {date.getHours() >= 12 ? "PM" : "AM"}
         </div>
         <div>
           {days[date.getDay() + 1]},{date.getDate()}{" "}
           {months[date.getMonth() + 1]}
         </div>
+        <div>TimeZone</div>
       </div>
     </>
   );

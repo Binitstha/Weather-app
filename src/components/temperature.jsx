@@ -4,22 +4,30 @@ import Loading from "./animation/loading";
 export const Temperature = ({ weatherData }) => {
   const [temperature, setTemperature] = useState("");
   const [feelsLiketemperature, setFeelsLikeTemperature] = useState("");
-
+  const [sunrise, setSunrise] = useState("");
+  const [sunset, setSunset] = useState("");
   useEffect(() => {
-    if (
-      !weatherData ||
-      !weatherData.currentConditions ||
-      !weatherData.currentConditions.temp
-    ) {
-      // setTemperature(<Loading />);
-    } else {
-      console.log(weatherData.currentConditions.temp);
+    if (!(!weatherData || !weatherData.currentConditions)) {
       setTemperature(`${Math.floor(weatherData.currentConditions.temp)}°F`);
       setFeelsLikeTemperature(
         `${Math.floor(weatherData.currentConditions.feelslike)}°F`
       );
+      setSunrise(weatherData.currentConditions.sunrise);
+      setSunset(weatherData.currentConditions.sunset);
     }
   }, [weatherData]);
+
+  const convertTimeFormat = (timeString) => {
+    const time = new Date(`2000-01-01T${timeString}`);
+    const formattedTime = time.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    });
+
+    return formattedTime;
+  };
 
   return (
     <>
@@ -32,13 +40,31 @@ export const Temperature = ({ weatherData }) => {
             ) : (
               <div className="transition-all">
                 <div className="text-6xl">{temperature}</div>
-                <div>Feels like: {feelsLiketemperature}</div>
+                <div className="text-lg">
+                  Feels like: {feelsLiketemperature}
+                </div>
               </div>
             )}
           </div>
-          <div>
-            <div>Sun rise</div>
-            <div>Sun set</div>
+          <div className="h-36 flex flex-col justify-evenly gap-2 items-center p-1">
+            <div className="flex gap-3 text-xl">
+              <i className="flex items-center justify-center fa-light fa-sunrise fa-fade text-4xl"></i>
+              <div className="flex flex-col justify-center items-start">
+                <span>Sunrise</span>
+                <span className="text-base">{convertTimeFormat(sunrise)}</span>
+              </div>
+            </div>
+            <div>
+              <div className="flex gap-3 text-xl">
+                <i className="flex justify-center items-center fa-light fa-sunset fa-fade text-4xl"></i>
+                <div className="flex flex-col justify-center items-start">
+                  <span>Sunset</span>
+                  <span className="text-base">
+                    {convertTimeFormat(sunset)}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
         <section className="flex flex-col">

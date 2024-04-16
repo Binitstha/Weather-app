@@ -15,7 +15,7 @@ const Loading = () => {
   return (
     <>
       <div>
-        <span>{dotVisible}</span>
+        <span className="text-4xl">{dotVisible}</span>
       </div>
     </>
   );

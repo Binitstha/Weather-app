@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
 import { countryCityNames } from "../../../JSON/country.js";
 import { SuggestedCitiesBox } from "../search/suggestionBox.jsx";
 
-export const Search = ({ setWeatherData }) => {
+export const Search = ({ setWeatherData, location }) => {
   const [input, setinput] = useState("");
+
+  useEffect(() => {
+    setinput(location);
+  }, [location]);
+
+  console.log(input);
+
   const [suggestedCities, setSuggestedCities] = useState([]);
   const [searching, setSearching] = useState(false);
 
@@ -20,24 +27,30 @@ export const Search = ({ setWeatherData }) => {
     setSearching(false);
   };
 
+  const weatherDataFetch = async () => {
+    if (input == "") {
+      console.log("PLease enter the location");
+    } else {
+      try {
+        const response = await fetch(
+          `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${input}/${time}?key=ZJ7YEDFWPH3Z8GCJGY9M4XE88`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch the data");
+        }
+        const data = await response.json();
+
+        setWeatherData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setinput("");
     setSearching(false);
-
-    try {
-      const response = await fetch(
-        `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${input}/${time}?key=ZJ7YEDFWPH3Z8GCJGY9M4XE88`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch the data");
-      }
-      const data = await response.json();
-
-      setWeatherData(data);
-    } catch (error) {
-      console.log(error);
-    }
+    await weatherDataFetch();
   };
 
   const countryFilter = (searchInput) => {
@@ -58,6 +71,7 @@ export const Search = ({ setWeatherData }) => {
     setinput(city);
     setSearching(false);
   };
+
   return (
     <>
       <form action="" onSubmit={handleSubmit} className="relative z-20 ">
@@ -72,6 +86,7 @@ export const Search = ({ setWeatherData }) => {
               type="text"
               id="search"
               autoComplete="off"
+              required
               value={input}
               onChange={(e) => {
                 if (e.target.value) {
@@ -110,4 +125,5 @@ export default Search;
 
 Search.propTypes = {
   setWeatherData: PropTypes.func.isRequired,
+  location: PropTypes.string.isRequired,
 };

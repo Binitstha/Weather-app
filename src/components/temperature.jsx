@@ -10,6 +10,10 @@ export const Temperature = ({ weatherData }) => {
   const [sunset, setSunset] = useState("");
   const [conditions, setConditions] = useState("");
   const [conditionsIcon, setConditionsIcon] = useState("");
+  const [humidity, setHumidity] = useState("");
+  const [wind, setwind] = useState("");
+  const [pressure, setPressure] = useState("");
+  const [uv, setUv] = useState("");
 
   useEffect(() => {
     if (!(!weatherData || !weatherData.currentConditions)) {
@@ -21,6 +25,10 @@ export const Temperature = ({ weatherData }) => {
       setSunset(weatherData.currentConditions.sunset);
       setConditions(weatherData.currentConditions.conditions);
       setConditionsIcon(weatherData.currentConditions.icon);
+      setHumidity(weatherData.currentConditions.humidity);
+      setPressure(weatherData.currentConditions.pressure);
+      setwind(weatherData.currentConditions.windspeed);
+      setUv(weatherData.currentConditions.uvindex);
     }
   }, [weatherData]);
 
@@ -39,7 +47,8 @@ export const Temperature = ({ weatherData }) => {
   console.log(conditionsIcon);
 
   const weatherIcon = icons
-    .map((icon) => icon[conditionsIcon]).filter(icon=>icon)[0]
+    .map((icon) => icon[conditionsIcon])
+    .filter((icon) => icon)[0];
   console.log("icon", weatherIcon);
   return (
     <>
@@ -79,15 +88,31 @@ export const Temperature = ({ weatherData }) => {
         </section>
         <section className="flex flex-col h-full w-48 justify-evenly items-center gap-3">
           <div className="h-32 w-32 flex justify-center items-center">
-          <i className={`${weatherIcon} text-9xl`}></i>
+            <i className={`${weatherIcon} text-9xl`}></i>
           </div>
           <div className="text-xl">{conditions}</div>
         </section>
-        <section className="flex flex-wrap border-2 w-64 h-full justify-center items-center gap-2">
-          <div className="h-28 flex justify-center items-center border-2 w-28">humidity</div>
-          <div className="h-28 flex justify-center items-center border-2 w-28">wind speed</div>
-          <div className="h-28 flex justify-center items-center border-2 w-28">Pressure</div>
-          <div className="h-28 flex justify-center items-center border-2 w-28">UV</div>
+        <section className="flex flex-wrap w-64 h-full justify-center items-center gap-2">
+          <div className="h-28 flex-col flex justify-center items-center w-28">
+            <i className="fa-duotone fa-water text-5xl"></i>
+            <span className="mt-1">{humidity}%</span>
+            <span>humidity</span>
+          </div>
+          <div className="h-28 flex flex-col justify-center items-center w-28">
+            <i className="fa-duotone fa-wind text-5xl"></i>
+            <span className="mt-1">{wind} km/h</span>
+            <span>wind speed</span>
+          </div>
+          <div className="h-28 flex flex-col justify-center items-center w-28">
+            <i className="fa-duotone fa-gauge text-5xl"></i>
+            <span className="mt-1">{pressure} hpa</span>
+            <span>Pressure</span>
+          </div>
+          <div className="h-28 flex flex-col justify-center items-center w-28">
+            <i className="fa-sharp fa-regular text-5xl fa-keyboard-brightness fa-rotate-180"></i>
+            <span className="mt-1">{uv} mW</span>
+            <span>UV</span>
+          </div>
         </section>
       </div>
     </>

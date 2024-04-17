@@ -10,8 +10,6 @@ export const Search = ({ setWeatherData, location }) => {
     setinput(location);
   }, [location]);
 
-  console.log(input);
-
   const [suggestedCities, setSuggestedCities] = useState([]);
   const [searching, setSearching] = useState(false);
 

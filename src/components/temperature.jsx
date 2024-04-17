@@ -44,12 +44,9 @@ export const Temperature = ({ weatherData }) => {
     return formattedTime;
   };
 
-  console.log(conditionsIcon);
-
   const weatherIcon = icons
     .map((icon) => icon[conditionsIcon])
     .filter((icon) => icon)[0];
-  console.log("icon", weatherIcon);
   return (
     <>
       <div className=" flex gap-5 justify-start items-center h-64 w-full rounded-xl bg-slate-600 p-3 ">

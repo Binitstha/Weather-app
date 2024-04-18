@@ -1,6 +1,6 @@
 import { PropTypes } from "prop-types";
 import { useEffect, useState } from "react";
-export const Times = ({ location, weatherData, darkMode }) => {
+export const Times = ({ weatherData, darkMode }) => {
   const date = new Date();
 
   const months = [
@@ -51,8 +51,8 @@ export const Times = ({ location, weatherData, darkMode }) => {
 
   return (
     <>
-      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} h-64 w-[30rem] rounded-xl flex flex-col justify-evenly items-center shadow-slate-800 shadow-2xl p-3`}>
-        <div className="text-3xl w-fit h-20">{location}</div>
+      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} h-64 w-[30rem] rounded-xl flex flex-col justify-evenly items-center p-3`}>
+        <div className="text-2xl  w-fit h-20 flex justify-center items-center text-center">{weatherData.resolvedAddress}</div>
         <div className="flex justify-center items-center flex-col">
           <div className="text-3xl">
             {hour < 10 ? `0${hour}` : hour}:

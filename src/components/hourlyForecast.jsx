@@ -48,7 +48,7 @@ export const HourlyForecast = ({ weatherData,darkMode }) => {
 
   return (
     <>
-      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} p-3 w-full rounded-xl h-64 shadow-slate-800 shadow-2xl`}>
+      <div className={`${darkMode ? "bg-gradient-to-bl shadow-slate-800 shadow-2xl from-gray-700 to-gray-800 text-white":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} p-3 w-full rounded-xl h-64 shadow-2xl`}>
         <div className="h-full flex flex-col mx-7 justify-start items-center">
           <h3>Hourly forecast : </h3>
           <section className=" flex w-full gap-5 p-2 justify-evenly h-full items-center">
@@ -89,11 +89,11 @@ const ForcastRenderer = ({ forcastData,darkMode }) => {
 
   return (
     <>
-      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} shadow-lg bgt shadow-slate-900 flex flex-col justify-center items-center rounded-3xl h-full w-full`}>
+      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} shadow-lg  flex flex-col justify-center items-center rounded-2xl h-full w-full`}>
         {forcastData[0] && (
           <>
             <span>{convertTimeFormat(forcastData[0].datetime)}</span>
-            <span>
+            <span className="my-1">
               <i className={`${weatherIcon} text-3xl`}></i>
             </span>
             <span>{}</span>

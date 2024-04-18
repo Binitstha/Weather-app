@@ -29,7 +29,7 @@ export const Forecast = ({ location,darkMode }) => {
       if (input !== "") {
         try {
           const response = await fetch(
-            `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${input}/${time1}/${time2}/?key=ZJ7YEDFWPH3Z8GCJGY9M4XE88`
+            `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${input}/${time1}/${time2}/?key=TMY8GD3BAHYAH4UZAU7WKYFEU`
           );
           if (!response.ok) {
             throw new Error("data retriviel error");
@@ -46,7 +46,7 @@ export const Forecast = ({ location,darkMode }) => {
 
   return (
     <>
-      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} h-64 w-[25rem] rounded-xl flex flex-col justify-start p-2 items-center shadow-slate-800 shadow-2xl `}>
+      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} h-64 w-[25rem] rounded-xl flex flex-col justify-start p-2 items-center shadow-2xl `}>
         <p>5 Days Forecast:</p>
         <section className="w-full  flex flex-col h-full justify-around">
           {
@@ -65,7 +65,7 @@ export const Forecast = ({ location,darkMode }) => {
   );
 };
 
-const ForcastRenderer = ({data,value,darkMode}) => {
+const ForcastRenderer = ({data,value}) => {
   const months = [
     "JAN",
     "FEB",
@@ -95,7 +95,7 @@ const ForcastRenderer = ({data,value,darkMode}) => {
       {
         <div className=" h-8 flex justify-around items-center">
           <i className={`${icons.map((icon)=>icon[data[value].icon])} text-2xl`}></i>
-          <span>{data[value].temp}&deg;F</span>
+          <span>{data[value].temp} &deg;F</span>
           <span>{`${days[(date.getDay()+value)%7]},${date.getDate()+value} ${months[date.getMonth()+1]}`}</span>
         </div>
       }
@@ -112,6 +112,4 @@ Forecast.propTypes = {
 ForcastRenderer.propTypes = {
   data: PropTypes.array.isRequired,
   value: PropTypes.number.isRequired,
-  darkMode: PropTypes.bool.isRequired
-
 }

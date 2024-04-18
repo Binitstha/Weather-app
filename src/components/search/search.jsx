@@ -3,12 +3,8 @@ import { PropTypes } from "prop-types";
 import { countryCityNames } from "../../../JSON/country.js";
 import { SuggestedCitiesBox } from "../search/suggestionBox.jsx";
 
-export const Search = ({ setWeatherData, location, darkMode }) => {
+export const Search = ({ setWeatherData, darkMode,setLocation }) => {
   const [input, setinput] = useState("");
-
-  useEffect(() => {
-    setinput(location);
-  }, [location]);
 
   useEffect(() => {
     weatherDataFetch();
@@ -23,7 +19,7 @@ export const Search = ({ setWeatherData, location, darkMode }) => {
 
   const weatherDataFetch = async () => {
     if (input == "") {
-      console.log("PLease enter the location");
+      return null
     } else {
       try {
         const date = new Date();
@@ -36,7 +32,7 @@ export const Search = ({ setWeatherData, location, darkMode }) => {
         }`;
 
         const response = await fetch(
-          `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${input}/${time}?key=ZJ7YEDFWPH3Z8GCJGY9M4XE88`
+          `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${input}/${time}?key=TMY8GD3BAHYAH4UZAU7WKYFEU`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch the data");
@@ -51,11 +47,12 @@ export const Search = ({ setWeatherData, location, darkMode }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLocation(input)
     setinput("");
     setSearching(false);
     await weatherDataFetch();
   };
-  
+
   const countryFilter = (searchInput) => {
     const filteredCities = Object.entries(countryCityNames).flatMap(
       ([country, cities]) => {
@@ -82,7 +79,7 @@ export const Search = ({ setWeatherData, location, darkMode }) => {
           className={`${
             searching ? "rounded-t-3xl shadow-sm" : "rounded-3xl shadow-xl"
           } ${
-            darkMode ? "bg-slate-900" : "bg-slate-300"
+            darkMode ? "bg-slate-900 text-white" : "bg-slate-300 text-black"
           } w-fit p-2 px-5 m-2 flex justify-center items-center gap-5`}
         >
           <div className="flex justify-center items-center">
@@ -103,7 +100,7 @@ export const Search = ({ setWeatherData, location, darkMode }) => {
               }}
               placeholder="Search for your preferred city..."
               className={`${
-                darkMode ? "bg-slate-900 text-white" : "bg-slate-300 text-black"
+                darkMode ? "bg-slate-900 text-white" : "bg-slate-300 text-slate-900"
               } w-96 text-white flex justify-center items-center outline-none`}
             />
             <i
@@ -140,4 +137,5 @@ Search.propTypes = {
   setWeatherData: PropTypes.func.isRequired,
   location: PropTypes.string.isRequired,
   darkMode: PropTypes.bool.isRequired,
+  setLocation: PropTypes.func.isRequired,
 };

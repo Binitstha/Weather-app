@@ -16,7 +16,7 @@ export const SuggestedCitiesBox = (props) => {
                   props.onCitySelection(city);
                 }}
                 key={index}
-                className={`${props.darkMode ? "bg-slate-900 text-white hover:bg-slate-800":"bg-slate-300 text-black hover:bg-slate-400"} cursor-pointer h-7 last:pb-4 hover:bg-slate-900 flex items-center px-4 p-3 last:rounded-b-2xl bg-slate-800 w-[30rem] last`}
+                className={`${props.darkMode ? "bg-slate-900 text-white hover:bg-slate-700":"bg-slate-300 text-black hover:bg-gray-400"} cursor-pointer h-7 last:pb-4 hover:bg-slate-900 flex items-center px-4 p-3 last:rounded-b-2xl w-[30rem] last`}
                 >
               <li>
                 {city}, {country}

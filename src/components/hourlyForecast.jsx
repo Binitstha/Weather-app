@@ -2,7 +2,7 @@ import { PropTypes } from "prop-types";
 import { useEffect, useState } from "react";
 import icons from "../icons/weatherIcon";
 
-export const HourlyForecast = ({ weatherData }) => {
+export const HourlyForecast = ({ weatherData,darkMode }) => {
   const [hourData, sethourData] = useState([]);
   const [currentTime, setCurrentTime] = useState("");
   const [first, setFirst] = useState([]);
@@ -24,9 +24,6 @@ export const HourlyForecast = ({ weatherData }) => {
       const filteredData = weatherData.days[0].hours.filter((hour) => {
         let hourOfDay = parseInt(hour.datetime.split(":")[0]);
         const nextHour = (parsedTime + 1) % 24; // Calculate the next hour within 24-hour format
-        if (hourOfDay < parsedTime) {
-          hourOfDay += 24; // Adjust the hour if it's before the current hour
-        }
         return hourOfDay >= nextHour && hourOfDay <= nextHour + 4; // Filter the next 5 hours
       });
 
@@ -39,7 +36,7 @@ export const HourlyForecast = ({ weatherData }) => {
       return hourData.filter(
         (hour) =>
           parseInt(hour.datetime.split(":")[0]) ===
-          (parseInt(currentTime) + value) % 24
+          (parseInt(date.getHours()) + value) % 24
       );
     };
     setFirst(filterer(1));
@@ -51,15 +48,15 @@ export const HourlyForecast = ({ weatherData }) => {
 
   return (
     <>
-      <div className="p-3 w-full rounded-xl h-64 bg-slate-600">
+      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} p-3 w-full rounded-xl h-64 shadow-slate-800 shadow-2xl`}>
         <div className="h-full flex flex-col mx-7 justify-start items-center">
           <h3>Hourly forecast : </h3>
           <section className=" flex w-full gap-5 p-2 justify-evenly h-full items-center">
-            <ForcastRenderer forcastData={first} />
-            <ForcastRenderer forcastData={second} />
-            <ForcastRenderer forcastData={third} />
-            <ForcastRenderer forcastData={fourth} />
-            <ForcastRenderer forcastData={fifth} />
+            <ForcastRenderer forcastData={first} darkMode={darkMode} />
+            <ForcastRenderer forcastData={second} darkMode={darkMode} />
+            <ForcastRenderer forcastData={third} darkMode={darkMode} />
+            <ForcastRenderer forcastData={fourth} darkMode={darkMode} />
+            <ForcastRenderer forcastData={fifth} darkMode={darkMode} />
           </section>
         </div>
       </div>
@@ -67,7 +64,7 @@ export const HourlyForecast = ({ weatherData }) => {
   );
 };
 
-const ForcastRenderer = ({ forcastData }) => {
+const ForcastRenderer = ({ forcastData,darkMode }) => {
   const [weatherIcon, setWeatherIcon] = useState("");
   const [winddir, setWindDir] = useState("");
   useEffect(() => {
@@ -92,7 +89,7 @@ const ForcastRenderer = ({ forcastData }) => {
 
   return (
     <>
-      <div className=" shadow-lg bgt shadow-black flex flex-col justify-center items-center rounded-3xl h-full w-full">
+      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} shadow-lg bgt shadow-slate-900 flex flex-col justify-center items-center rounded-3xl h-full w-full`}>
         {forcastData[0] && (
           <>
             <span>{convertTimeFormat(forcastData[0].datetime)}</span>
@@ -123,6 +120,8 @@ HourlyForecast.propTypes = {
     PropTypes.array.isRequired,
     PropTypes.object.isRequired,
   ]),
+  darkMode: PropTypes.bool.isRequired
+
 };
 
 ForcastRenderer.propTypes = {
@@ -130,4 +129,5 @@ ForcastRenderer.propTypes = {
     PropTypes.array.isRequired,
     PropTypes.object.isRequired,
   ]),
+    darkMode: PropTypes.bool.isRequired
 };

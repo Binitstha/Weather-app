@@ -1,6 +1,6 @@
 import { PropTypes } from "prop-types";
 import { useEffect, useState } from "react";
-export const Times = ({ location, weatherData }) => {
+export const Times = ({ location, weatherData, darkMode }) => {
   const date = new Date();
 
   const months = [
@@ -51,7 +51,7 @@ export const Times = ({ location, weatherData }) => {
 
   return (
     <>
-      <div className="h-64 w-[30rem] rounded-xl flex flex-col justify-evenly items-center shadow-2xl bg-slate-600 p-3">
+      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} h-64 w-[30rem] rounded-xl flex flex-col justify-evenly items-center shadow-slate-800 shadow-2xl p-3`}>
         <div className="text-3xl w-fit h-20">{location}</div>
         <div className="flex justify-center items-center flex-col">
           <div className="text-3xl">
@@ -72,6 +72,7 @@ export const Times = ({ location, weatherData }) => {
 };
 Times.propTypes = {
   location: PropTypes.string.isRequired,
+  darkMode: PropTypes.bool.isRequired,
   weatherData: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
     .isRequired,
 };

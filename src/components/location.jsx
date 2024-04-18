@@ -1,6 +1,6 @@
 import { PropTypes } from "prop-types";
 import { useEffect } from "react";
-export const CurrentLocation = ({ setLocation }) => {
+export const CurrentLocation = ({ setLocation,darkMode }) => {
   const handleClick = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -31,7 +31,7 @@ export const CurrentLocation = ({ setLocation }) => {
     <>
       <div className="flex flex-col justify-center items-center gap-2">
         <div onClick={()=>{
-          handleClick}} className="flex justify-center items-center gap-2 h-8 border-2 p-4 cursor-pointer rounded-3xl">
+          handleClick}} className={`${darkMode ? "bg-slate-900 text-white":"bg-slate-300 text-black"} flex justify-center items-center gap-2 h-10 shadow-xl p-4 cursor-pointer rounded-3xl`}>
           <i className="fa-solid fa-location-crosshairs text-xl "></i>
           <div>Current location</div>
         </div>
@@ -42,4 +42,5 @@ export const CurrentLocation = ({ setLocation }) => {
 
 CurrentLocation.propTypes = {
   setLocation: PropTypes.func.isRequired,
+  darkMode: PropTypes.bool.isRequired
 };

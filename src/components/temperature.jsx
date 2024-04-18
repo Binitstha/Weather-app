@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Loading from "./animation/loading";
 import icons from "../icons/weatherIcon";
 
-export const Temperature = ({ weatherData }) => {
+export const Temperature = ({ weatherData,darkMode }) => {
   const [temperature, setTemperature] = useState("");
   const [feelsLiketemperature, setFeelsLikeTemperature] = useState("");
   const [sunrise, setSunrise] = useState("");
@@ -49,7 +49,7 @@ export const Temperature = ({ weatherData }) => {
     .filter((icon) => icon)[0];
   return (
     <>
-      <div className=" flex gap-5 justify-start items-center h-64 w-full rounded-xl bg-slate-600 p-3 ">
+      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} flex gap-5 justify-start items-center h-64 w-full rounded-xl shadow-slate-800  p-3 `}>
         {/* {weatherData && <div>{JSON.stringify(weatherData)}</div>} */}
         <section className="  h-full w-40">
           <div className="h-24 text-xl  flex flex-col justify-center items-center">
@@ -119,4 +119,6 @@ export const Temperature = ({ weatherData }) => {
 Temperature.propTypes = {
   weatherData: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
     .isRequired,
+  darkMode: PropTypes.bool.isRequired
+
 };

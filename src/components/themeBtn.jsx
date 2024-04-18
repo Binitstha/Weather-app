@@ -1,7 +1,5 @@
-import { useState } from "react";
-
-export const ThemeBtn = () => {
-  const [darkMode, setDarkMode] = useState(false);
+import { PropTypes } from "prop-types";
+export const ThemeBtn = ({ setDarkMode, darkMode }) => {
   const handleClick = () => {
     setDarkMode(!darkMode);
   };
@@ -11,17 +9,24 @@ export const ThemeBtn = () => {
         <div
           onClick={handleClick}
           className={`${
-            darkMode ? "bg-black" : "bg-white"
-          } h-7 w-14 rounded-2xl px-1 items-center flex cursor-pointer relative`}
+            darkMode ? "bg-slate-900" : "bg-white"
+          } h-7 w-14 shadow-2xl rounded-2xl px-1 items-center flex cursor-pointer relative`}
         >
           <div
             className={`absolute h-5 w-5 rounded-full duration-500 transition-transform transform ${
-              darkMode ? "translate-x-7 bg-white" : "translate-x-0 bg-black"
+              darkMode ? "translate-x-7 bg-white" : "translate-x-0 bg-slate-900"
             }`}
           ></div>
         </div>
-        <p>{darkMode ? "Dark mode" : "Light mode"}</p>
+        <p className={`${darkMode ? "" : "text-black"}`}>
+          {darkMode ? "Dark mode" : "Light mode"}
+        </p>
       </div>
     </>
   );
+};
+
+ThemeBtn.propTypes = {
+  setDarkMode: PropTypes.func.isRequired,
+  darkMode: PropTypes.bool,
 };

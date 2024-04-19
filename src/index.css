@@ -23,3 +23,30 @@
     box-shadow: inset 0 0 20px 20px #23232329;
   }
 }
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 70px;
+  aspect-ratio: 1;
+  background:
+    radial-gradient(farthest-side,#323a4e 90%,#0000) center/16px 16px,
+    radial-gradient(farthest-side,rgb(82, 141, 161)   90%,#0000) bottom/12px 12px;
+  background-repeat: no-repeat;
+  animation: l17 1s infinite linear;
+  position: relative;
+}
+.loader::before {    
+  content:"";
+  position: absolute;
+  width: 8px;
+  aspect-ratio: 1;
+  inset: auto 0 16px;
+  margin: auto;
+  background: #615151;
+  border-radius: 50%;
+  transform-origin: 50% calc(100% + 10px);
+  animation: inherit;
+  animation-duration: 0.5s;
+}
+@keyframes l17 { 
+  100%{transform: rotate(1turn)}
+}

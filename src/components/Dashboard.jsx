@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import { Temperature } from "./temperature";
 import { Forecast } from "./forecast";
 import { HourlyForecast } from "./hourlyForecast";
+import "../index.css"
 
 export default function Dashboard() {
+  const [loading, setLoading] = useState(true);
   const [location, setLocation] = useState("");
   const [weatherData, setWeatherData] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
@@ -16,8 +18,9 @@ export default function Dashboard() {
 
   const weatherDataFetch = async () => {
     if (location == "") {
-      console.log("PLease enter the location");
+      setLoading(true);
     } else {
+      setLoading(false);
       try {
         const date = new Date();
         const time = `${date.getFullYear()}-${
@@ -78,47 +81,60 @@ export default function Dashboard() {
             : "bg-gradient-to-b from-gray-800 to-gray-900"
         }`}
       >
-        <div className="pt-3 h-screen mx-32">
-          <nav className="flex justify-around items-center">
-            <ThemeBtn setDarkMode={setDarkMode} darkMode={darkMode} />
-            <Search
-              setWeatherData={setWeatherData}
-              setLocation={setLocation}
-              location={location}
-              darkMode={darkMode}
-            />
-            <CurrentLocation setLocation={setLocation} darkMode={darkMode} />
-          </nav>
-          <section className="m-10 mx-32 gap-10 flex flex-col justify-center items-center ">
-            <div className="flex gap-8 justify-between  w-full">
-              <Times
-                location={location}
-                weatherData={weatherData}
-                darkMode={darkMode}
-              />
-              <Temperature
-                weatherData={weatherData}
-                darkMode={darkMode}
-                activeC={activeC}
-                activeT={activeT}
-                setActiveC={setActiveC}
-                setActiveT={setActiveT}
-              />
+        {loading ? (
+          <>
+            <div className="w-full h-full flex justify-center items-center">
+              <div className="loader text-stone-500"></div>
             </div>
-            <div className="flex gap-8 justify-between w-full">
-              <Forecast
-                location={location}
-                darkMode={darkMode}
-                activeC={activeC}
-              />
-              <HourlyForecast
-                weatherData={weatherData}
-                darkMode={darkMode}
-                activeC={activeC}
-              />
+          </>
+        ) : (
+          <>
+            <div className="pt-3 h-screen mx-32">
+              <nav className="flex justify-around items-center">
+                <ThemeBtn setDarkMode={setDarkMode} darkMode={darkMode} />
+                <Search
+                  setWeatherData={setWeatherData}
+                  setLocation={setLocation}
+                  location={location}
+                  darkMode={darkMode}
+                />
+                <CurrentLocation
+                  setLocation={setLocation}
+                  darkMode={darkMode}
+                />
+              </nav>
+              <section className="m-10 mx-32 gap-10 flex flex-col justify-center items-center ">
+                <div className="flex gap-8 justify-between  w-full">
+                  <Times
+                    location={location}
+                    weatherData={weatherData}
+                    darkMode={darkMode}
+                  />
+                  <Temperature
+                    weatherData={weatherData}
+                    darkMode={darkMode}
+                    activeC={activeC}
+                    activeT={activeT}
+                    setActiveC={setActiveC}
+                    setActiveT={setActiveT}
+                  />
+                </div>
+                <div className="flex gap-8 justify-between w-full">
+                  <Forecast
+                    location={location}
+                    darkMode={darkMode}
+                    activeC={activeC}
+                  />
+                  <HourlyForecast
+                    weatherData={weatherData}
+                    darkMode={darkMode}
+                    activeC={activeC}
+                  />
+                </div>
+              </section>
             </div>
-          </section>
-        </div>
+          </>
+        )}
       </main>
     </>
   );

@@ -73,13 +73,13 @@ export const Temperature = ({
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } h-24 text-xl  flex flex-col justify-center items-center`}
+            } h-24 text-xl  flex flex-col justify-center items-center `}
           >
             {loading ? (
               ""
             ) : (
               <>
-                <div className="transition-all">
+                <div>
                   <div className="text-6xl">
                     {activeT
                       ? `${Math.ceil(
@@ -104,7 +104,7 @@ export const Temperature = ({
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } h-36 flex flex-col justify-evenly gap-2 items-center p-1`}
+            } h-36 flex flex-col justify-evenly gap-2 items-center p-1 `}
           >
             {loading ? (
               ""
@@ -142,7 +142,7 @@ export const Temperature = ({
             }}
             className={`${
               activeC ? "text-3xl" : "text-md"
-            } transition-all mx-auto cursor-pointer`}
+            } mx-auto cursor-pointer`}
           >
             &deg;F
           </div>
@@ -158,7 +158,7 @@ export const Temperature = ({
             }}
             className={`${
               activeT ? "text-3xl" : "text-md"
-            } transition-all mx-auto cursor-pointer`}
+            } mx-auto cursor-pointer`}
           >
             &deg;C
           </div>
@@ -169,7 +169,7 @@ export const Temperature = ({
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } h-32 w-32 flex justify-center items-center`}
+            } h-32 w-32 flex justify-center items-center `}
           >
             {loading ? "" : <i className={`${weatherIcon} text-9xl`}></i>}
           </div>
@@ -178,7 +178,7 @@ export const Temperature = ({
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } text-xl`}
+            } text-xl `}
           >
             {loading ? "" : conditions}
           </div>
@@ -189,7 +189,7 @@ export const Temperature = ({
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } h-28 flex-col flex justify-center items-center w-24`}
+            } h-28 flex-col flex justify-center items-center w-24 `}
           >
             {loading ? (
               ""
@@ -206,7 +206,7 @@ export const Temperature = ({
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } h-28 flex flex-col justify-center items-center w-24`}
+            } h-28 flex flex-col justify-center items-center w-24 `}
           >
             {loading ? (
               ""
@@ -223,7 +223,7 @@ export const Temperature = ({
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } h-28 flex flex-col justify-center items-center w-24`}
+            } h-28 flex flex-col justify-center items-center w-24 `}
           >
             {loading ? (
               ""
@@ -240,7 +240,7 @@ export const Temperature = ({
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } h-28 flex flex-col justify-center items-center w-24`}
+            } h-28 flex flex-col justify-center items-center w-24 `}
           >
             {loading ? (
               ""

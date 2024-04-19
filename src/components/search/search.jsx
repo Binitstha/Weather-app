@@ -73,7 +73,7 @@ export const Search = ({ setWeatherData, darkMode,setLocation }) => {
   };
   return (
     <>
-      <form action="" onSubmit={handleSubmit} className="relative z-20">
+      <form action="" onSubmit={handleSubmit} className=" transition-all relative z-20">
         <label
           htmlFor="search"
           className={`${

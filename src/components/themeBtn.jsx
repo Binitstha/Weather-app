@@ -5,7 +5,7 @@ export const ThemeBtn = ({ setDarkMode, darkMode }) => {
   };
   return (
     <>
-      <div className=" w-24 gap-2 flex flex-col mt-3 justify-center items-center">
+      <div className="transition-all w-24 gap-2 flex flex-col mt-3 justify-center items-center">
         <div
           onClick={handleClick}
           className={`${

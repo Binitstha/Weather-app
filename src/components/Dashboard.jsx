@@ -75,7 +75,7 @@ export default function Dashboard() {
   return (
     <>
       <main
-        className={`w-screen h-screen ${
+        className={` min-h-screen ${
           !darkMode
             ? "bg-gradient-to-br from-gray-200 to-gray-400"
             : "bg-gradient-to-b from-gray-800 to-gray-900"
@@ -89,8 +89,8 @@ export default function Dashboard() {
           </>
         ) : (
           <>
-            <div className="pt-3 h-screen mx-32">
-              <nav className="flex justify-around items-center">
+            <div className="py-3 lg:mx-32 ">
+              <nav className="flex justify-evenly items-center max-[640px]:mx-auto max-[640px]:w-screen">
                 <ThemeBtn setDarkMode={setDarkMode} darkMode={darkMode} />
                 <Search
                   setWeatherData={setWeatherData}
@@ -103,8 +103,8 @@ export default function Dashboard() {
                   darkMode={darkMode}
                 />
               </nav>
-              <section className="m-10 mx-32 gap-10 flex flex-col justify-center items-center ">
-                <div className="flex gap-8 justify-between  w-full">
+              <section className="m-10 lg:mx-32 gap-10 flex flex-col justify-center items-center max-[640px]:flex-wrap">
+                <div className="flex gap-8 justify-between w-full max-[640px]:flex-wrap">
                   <Times
                     location={location}
                     weatherData={weatherData}
@@ -119,7 +119,7 @@ export default function Dashboard() {
                     setActiveT={setActiveT}
                   />
                 </div>
-                <div className="flex gap-8 justify-between w-full">
+                <div className="flex gap-8 justify-between w-full max-[640px]:flex-wrap">
                   <Forecast
                     location={location}
                     darkMode={darkMode}

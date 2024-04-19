@@ -11,7 +11,7 @@ export const HourlyForecast = ({ weatherData,darkMode,activeC }) => {
   const [third, setThird] = useState([]);
   const [fourth, setFourth] = useState([]);
   const [fifth, setFifth] = useState([]);
-  const [loading ,setLoading] = useState([])
+  const [loading ,setLoading] = useState(true)
 
   const date = new Date();
   useEffect(() => {
@@ -54,7 +54,7 @@ export const HourlyForecast = ({ weatherData,darkMode,activeC }) => {
       <div className={`${darkMode ? "bg-gradient-to-bl shadow-slate-800 shadow-2xl from-gray-700 to-gray-800 text-white":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} p-3 w-full rounded-xl h-64 shadow-2xl`}>
         <div className="h-full flex flex-col mx-7 justify-start items-center">
           <h3>Hourly forecast : </h3>
-          <section className=" flex w-full gap-5 p-2 justify-evenly h-full items-center">
+          <section className=" flex w-full gap-5 p-2 max-[640px]:w-fit justify-evenly h-full items-center max-[640px]:gap-2">
             <ForcastRenderer forcastData={first} darkMode={darkMode} activeC={activeC} loading={loading}/>
             <ForcastRenderer forcastData={second} darkMode={darkMode} activeC={activeC} loading={loading}/>
             <ForcastRenderer forcastData={third} darkMode={darkMode} activeC={activeC} loading={loading}/>
@@ -96,14 +96,14 @@ const ForcastRenderer = ({ forcastData,darkMode,activeC,loading }) => {
             loading
               ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
               : ""
-          } ${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} shadow-lg  flex flex-col justify-center items-center rounded-2xl h-full w-full`}>
+          } ${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} shadow-lg  flex flex-col justify-center items-center rounded-2xl h-full w-full max-[640px]:w-12`}>
         {forcastData[0] && (
           <>
-            <span>{convertTimeFormat(forcastData[0].datetime)}</span>
+            <span className="max-[640px]:text-[15px] text-center">{convertTimeFormat(forcastData[0].datetime)}</span>
             <span className="my-1">
-              <i className={`${weatherIcon} text-3xl`}></i>
+              <i className={`${weatherIcon} text-3xl max-[640px]:text-2xl`}></i>
             </span>
-            <span>{!activeC? `${Math.ceil(CelciusToFahrenheit(parseInt(forcastData[0].temp)))} °C`: `${forcastData[0].temp} °F`}</span>
+            <span className="max-[640px]:text-[13px] text-center">{!activeC? `${Math.ceil(CelciusToFahrenheit(parseInt(forcastData[0].temp)))} °C`: `${forcastData[0].temp} °F`}</span>
             <span className="flex justify-center items-center">
               <img
                 src="public\image.png"
@@ -114,7 +114,7 @@ const ForcastRenderer = ({ forcastData,darkMode,activeC,loading }) => {
                 )}deg] mix-blend-lighten invert`}
               />
             </span>
-            <span>{forcastData[0].windspeed} km/h</span>
+            <span className="max-[640px]:text-[10px]">{forcastData[0].windspeed} km/h</span>
           </>
         )}
       </div>

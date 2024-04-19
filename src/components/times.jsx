@@ -60,7 +60,7 @@ export const Times = ({ weatherData, darkMode }) => {
           darkMode
             ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl"
             : "bg-slate-300 shadow-lg shadow-slate-400 text-black"
-        } h-64 w-[30rem] rounded-xl flex flex-col justify-evenly items-center p-3`}
+        } h-64 w-[30rem] rounded-xl flex flex-col justify-evenly items-center p-3 max-[640px]:w-[90rem]`}
       >
         <div
           className={`${

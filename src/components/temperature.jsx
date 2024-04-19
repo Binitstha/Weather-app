@@ -65,29 +65,29 @@ export const Temperature = ({
           darkMode
             ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl"
             : "bg-slate-300 shadow-lg shadow-slate-400 text-black"
-        } flex gap-2 justify-around items-center h-64 w-full rounded-xl p-3 `}
+        } flex gap-2 justify-around items-center h-64 w-full rounded-xl p-3 max-[640px]:gap-0 max-[640px]:flex-wrap max-[640px]:h-fit `}
       >
-        <section className=" h-full w-40 flex flex-col gap-2">
+        <section className=" h-full w-40 flex flex-col gap-2 max-[640px]:w-fit max-[640px]:gap-0">
           <div
             className={`${
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } h-24 text-xl  flex flex-col justify-center items-center `}
+            } h-24 text-xl flex flex-col justify-center items-center max-[640px]:text-sm `}
           >
             {loading ? (
               ""
             ) : (
               <>
                 <div>
-                  <div className="text-6xl">
+                  <div className="text-6xl max-[640px]:text-4xl">
                     {activeT
                       ? `${Math.ceil(
                           CelciusToFahrenheit(parseInt(temperature))
                         )}°C`
                       : temperature}
                   </div>
-                  <div className="text-lg">
+                  <div className="text-lg max-[640px]:text-sm">
                     Feels like:{" "}
                     {activeT
                       ? `${Math.ceil(
@@ -104,27 +104,27 @@ export const Temperature = ({
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } h-36 flex flex-col justify-evenly gap-2 items-center p-1 `}
+            } h-36 flex flex-col justify-evenly gap-2 items-center p-1 max-[640px]:h-fit`}
           >
             {loading ? (
               ""
             ) : (
               <>
-                <div className="flex gap-3 text-xl">
-                  <i className="flex items-center justify-center fa-light fa-sunrise text-4xl"></i>
+                <div className="flex gap-3 text-xl max-[640px]:text-sm">
+                  <i className="flex items-center justify-center fa-light fa-sunrise text-4xl max-[640px]:text-xl"></i>
                   <div className="flex flex-col justify-center items-start">
                     <span>Sunrise</span>
-                    <span className="text-base">
+                    <span className="text-base max-[640px]:text-sm">
                       {convertTimeFormat(sunrise)}
                     </span>
                   </div>
                 </div>
                 <div>
-                  <div className="flex gap-3 text-xl">
-                    <i className="flex justify-center items-center fa-light fa-sunset text-4xl"></i>
+                  <div className="flex gap-3 text-xl max-[640px]:text-sm">
+                    <i className="flex justify-center items-center fa-light fa-sunset text-4xl max-[640px]:text-xl"></i>
                     <div className="flex flex-col justify-center items-start">
                       <span>Sunset</span>
-                      <span className="text-base">
+                      <span className="text-base max-[640px]:text-sm">
                         {convertTimeFormat(sunset)}
                       </span>
                     </div>
@@ -134,14 +134,14 @@ export const Temperature = ({
             )}
           </div>
         </section>
-        <section className="h-full pt-2 w-10 flex flex-col justify-start">
+        <section className="h-full pt-2 w-10 flex flex-col justify-start max-[640px]:h-40 ">
           <div
             onClick={() => {
               setActiveT(!activeT);
               setActiveC(!activeC);
             }}
             className={`${
-              activeC ? "text-3xl" : "text-md"
+              activeC ? "text-3xl max-[640px]:text-xl" : "text-md max-[640px]:text-sm"
             } mx-auto cursor-pointer`}
           >
             &deg;F
@@ -157,47 +157,47 @@ export const Temperature = ({
               setActiveT(!activeT);
             }}
             className={`${
-              activeT ? "text-3xl" : "text-md"
+              activeT ? "text-3xl max-[640px]:text-xl" : "text-md max-[640px]:text-sm"
             } mx-auto cursor-pointer`}
           >
             &deg;C
           </div>
         </section>
-        <section className="flex flex-col h-full w-48 justify-evenly items-center gap-3">
+        <section className="flex flex-col h-full w-48 max-[640px]:w-24 justify-evenly items-center gap-3 max-[640px]:gap-0 max-[640px]:justify-center">
           <div
             className={`${
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } h-32 w-32 flex justify-center items-center `}
+            } h-32 w-32 flex justify-center items-center max-[640px]:w-fit max-[640px]:h-20`}
           >
-            {loading ? "" : <i className={`${weatherIcon} text-9xl`}></i>}
+            {loading ? "" : <i className={`${weatherIcon} text-9xl max-[640px]:text-6xl`}></i>}
           </div>
           <div
             className={`${
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } text-xl `}
+            } text-xl max-[640px]:text-sm max-[640px]:text-center `}
           >
             {loading ? "" : conditions}
           </div>
         </section>
-        <section className="flex flex-wrap w-52 h-full justify-center items-center gap-2">
+        <section className="flex flex-wrap w-52 h-full justify-center items-center gap-2 max-[640px]:w-full max-[640px]:flex-nowrap">
           <div
             className={`${
               loading
                 ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
                 : ""
-            } h-28 flex-col flex justify-center items-center w-24 `}
+            } h-28 flex-col flex justify-center items-center w-24`}
           >
             {loading ? (
               ""
             ) : (
               <>
-                <i className="fa-duotone fa-water text-5xl"></i>
-                <span className="mt-1">{humidity}%</span>
-                <span>humidity</span>
+                <i className="fa-duotone fa-water text-5xl max-[640px]:text-2xl"></i>
+                <span className="mt-1 max-[640px]:text-sm">{humidity}%</span>
+                <span className="max-[640px]:text-sm">humidity</span>
               </>
             )}
           </div>
@@ -212,9 +212,9 @@ export const Temperature = ({
               ""
             ) : (
               <>
-                <i className="fa-duotone fa-wind text-5xl"></i>
-                <span className="mt-1">{wind} km/h</span>
-                <span>wind speed</span>
+                <i className="fa-duotone fa-wind text-5xl max-[640px]:text-2xl"></i>
+                <span className="mt-1 max-[640px]:text-sm">{wind} km/h</span>
+                <span className="max-[640px]:text-sm">windspeed</span>
               </>
             )}
           </div>
@@ -229,9 +229,9 @@ export const Temperature = ({
               ""
             ) : (
               <>
-                <i className="fa-duotone fa-gauge text-5xl"></i>
-                <span className="mt-1">{pressure} hpa</span>
-                <span>Pressure</span>
+                <i className="fa-duotone fa-gauge text-5xl max-[640px]:text-2xl"></i>
+                <span className="mt-1 max-[640px]:text-sm">{pressure} hpa</span>
+                <span className="max-[640px]:text-sm">Pressure</span>
               </>
             )}
           </div>
@@ -246,9 +246,9 @@ export const Temperature = ({
               ""
             ) : (
               <>
-                <i className="fa-sharp fa-regular text-5xl fa-keyboard-brightness fa-rotate-180"></i>
-                <span className="mt-1">{uv} mW</span>
-                <span>UV</span>
+                <i className="fa-sharp fa-regular text-5xl max-[640px]:text-2xl fa-keyboard-brightness fa-rotate-180"></i>
+                <span className="mt-1 max-[640px]:text-sm">{uv} mW</span>
+                <span className="max-[640px]:text-sm">UV</span>
               </>
             )}
           </div>

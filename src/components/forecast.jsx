@@ -6,26 +6,25 @@ import { CelciusToFahrenheit } from "../script/tempConverter";
 export const Forecast = ({ location, darkMode, activeC }) => {
   const [forcastData, setforecastData] = useState([]);
   const [input, setInput] = useState("");
-  const [loading, setloading] = useState(false);
-
+  
   useEffect(() => {
     setInput(location);
   }, [location]);
-
+  
   const date = new Date();
   const time1 = `${date.getFullYear()}-${date.getMonth() + 1}-${
     date.getDate() + 1
   }T${date.getHours()}:${
     date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
   }:${date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()}`;
-
+  
   const time = parseInt(time1.split("T")[0].split("-")[2]) + 4;
   const time2 = `${date.getFullYear()}-${
     date.getMonth() + 1
   }-${time}T${date.getHours()}:${
     date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
   }:${date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()}`;
-
+  
   useEffect(() => {
     const fetchData = async () => {
       if (input !== "") {
@@ -38,7 +37,6 @@ export const Forecast = ({ location, darkMode, activeC }) => {
           }
           const data = await response.json();
           setforecastData(data);
-          setloading(false)
         } catch (err) {
           console.log(err);
         }
@@ -63,35 +61,30 @@ export const Forecast = ({ location, darkMode, activeC }) => {
               <ForcastRenderer
                 data={forcastData.days}
                 value={0}
-                loading={loading}
                 darkMode={darkMode}
                 activeC={activeC}
-              />
+                />
               <ForcastRenderer
                 data={forcastData.days}
                 value={1}
-                loading={loading}
                 darkMode={darkMode}
                 activeC={activeC}
-              />
+                />
               <ForcastRenderer
                 data={forcastData.days}
                 value={2}
-                loading={loading}
                 darkMode={darkMode}
                 activeC={activeC}
-              />
+                />
               <ForcastRenderer
                 data={forcastData.days}
                 value={3}
-                loading={loading}
                 darkMode={darkMode}
                 activeC={activeC}
               />
               <ForcastRenderer
                 data={forcastData.days}
                 value={4}
-                loading={loading}
                 darkMode={darkMode}
                 activeC={activeC}
               />
@@ -103,7 +96,14 @@ export const Forecast = ({ location, darkMode, activeC }) => {
   );
 };
 
-const ForcastRenderer = ({ data, value, activeC,loading }) => {
+const ForcastRenderer = ({ data, value, activeC }) => {
+  const [loading, setloading] = useState(true);
+  useEffect(()=>{
+    if(data !== "")
+    {
+      setloading(false)
+    }
+  },[data])
   const months = [
     "JAN",
     "FEB",
@@ -169,5 +169,4 @@ ForcastRenderer.propTypes = {
   data: PropTypes.array.isRequired,
   value: PropTypes.number.isRequired,
   activeC: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired,
 };

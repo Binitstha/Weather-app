@@ -9,6 +9,7 @@ export const Search = ({ setWeatherData, darkMode,setLocation }) => {
   useEffect(() => {
     weatherDataFetch();
   }, []);
+
   const [suggestedCities, setSuggestedCities] = useState([]);
   const [searching, setSearching] = useState(false);
 
@@ -80,7 +81,7 @@ export const Search = ({ setWeatherData, darkMode,setLocation }) => {
             searching ? "rounded-t-3xl shadow-sm" : "rounded-3xl shadow-xl"
           } ${
             darkMode ? "bg-slate-900" : "bg-slate-300"
-          } w-fit p-2 px-5 m-2 flex justify-center items-center gap-5`}
+          } w-fit p-2 px-5 m-2 flex justify-center items-center gap-5 max-[640px]:gap-3`}
         >
           <div className="flex justify-center items-center">
             <input
@@ -101,20 +102,20 @@ export const Search = ({ setWeatherData, darkMode,setLocation }) => {
               placeholder="Search for your preferred city..."
               className={`${
                 darkMode ? "bg-slate-900 text-white" : "bg-slate-300 text-black"
-              } w-96 flex justify-center items-center outline-none`}
+              } w-96 flex justify-center items-center outline-none max-[640px]:w-28 max-[640px]:text-ellipsis`}
             />
             <i
               onClick={clear}
               className={`${
                 darkMode ? "text-white" : "text-black"
-              } fa-solid fa-circle-xmark cursor-pointer`}
+              } fa-solid fa-circle-xmark cursor-pointer max-[640px]:text-sm`}
             ></i>
           </div>
           <button type="submit">
             <i
               className={`${
                 darkMode ? "text-white" : "text-black"
-              } fa-solid fa-magnifying-glass text-xl cursor-pointer`}
+              } fa-solid fa-magnifying-glass text-xl cursor-pointer max-[640px]:text-lg`}
             ></i>
           </button>
         </label>

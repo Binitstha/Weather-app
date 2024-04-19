@@ -1,8 +1,11 @@
 import { PropTypes } from "prop-types";
 import moment from "moment-timezone";
 import { useEffect, useState } from "react";
+import "../index.css";
+
 export const Times = ({ weatherData, darkMode }) => {
   const date = new Date();
+  const [loading, setloading] = useState(true);
 
   const months = [
     "JAN",
@@ -34,12 +37,13 @@ export const Times = ({ weatherData, darkMode }) => {
   useEffect(() => {
     const data = weatherData;
     setData(data);
-    if(data && data.timezone){
-      setTime(moment().tz(data.timezone).format('HH:mm'));
+    if (data && data.timezone) {
+      setloading(false);
+      setTime(moment().tz(data.timezone).format("HH:mm"));
     }
   }, [weatherData]);
 
-    const convertTimeFormat = (timeString) => {
+  const convertTimeFormat = (timeString) => {
     const time = new Date(`2000-01-01T${timeString}`);
     const formattedTime = time.toLocaleTimeString("en-US", {
       hour: "2-digit",
@@ -58,17 +62,47 @@ export const Times = ({ weatherData, darkMode }) => {
             : "bg-slate-300 shadow-lg shadow-slate-400 text-black"
         } h-64 w-[30rem] rounded-xl flex flex-col justify-evenly items-center p-3`}
       >
-        <div className="text-2xl  w-fit h-20 flex justify-center items-center text-center">
-          {weatherData.resolvedAddress}
+        <div
+          className={`${
+            loading
+              ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
+              : ""
+          } text-2xl  w-fit h-20 flex justify-center items-center text-center`}
+        >
+          {loading ? "" : weatherData.resolvedAddress}
         </div>
-        <div className="flex justify-center items-center flex-col">
-          <div className="text-3xl">{convertTimeFormat(time)}</div>
+        <div
+          className={`${
+            loading
+              ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
+              : ""
+          } flex justify-center items-center flex-col`}
+        >
+          {loading ? (
+            ""
+          ) : (
+            <div className="text-3xl">{convertTimeFormat(time)}</div>
+          )}
           <div>
-            {days[date.getDay() + 1]},{date.getDate()}{" "}
-            {months[date.getMonth() + 1]}
+            {loading ? (
+              ""
+            ) : (
+              <>
+                {days[date.getDay() + 1]},{date.getDate()}{" "}
+                {months[date.getMonth() + 1]}
+              </>
+            )}
           </div>
         </div>
-        <p>Timezone : {data.timezone}</p>
+        <p
+          className={`${
+            loading
+              ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
+              : ""
+          }`}
+        >
+          {loading ? "" : <>Timezone : {data.timezone}</>}
+        </p>
       </div>
     </>
   );

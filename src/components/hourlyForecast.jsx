@@ -11,6 +11,7 @@ export const HourlyForecast = ({ weatherData,darkMode,activeC }) => {
   const [third, setThird] = useState([]);
   const [fourth, setFourth] = useState([]);
   const [fifth, setFifth] = useState([]);
+  const [loading ,setLoading] = useState([])
 
   const date = new Date();
   useEffect(() => {
@@ -19,6 +20,7 @@ export const HourlyForecast = ({ weatherData,darkMode,activeC }) => {
       weatherData.days &&
       weatherData.currentConditions.datetime
     ) {
+      setLoading(false)
       setCurrentTime(date.getHours());
       const parsedTime = parseInt(date.getHours());
 
@@ -53,11 +55,11 @@ export const HourlyForecast = ({ weatherData,darkMode,activeC }) => {
         <div className="h-full flex flex-col mx-7 justify-start items-center">
           <h3>Hourly forecast : </h3>
           <section className=" flex w-full gap-5 p-2 justify-evenly h-full items-center">
-            <ForcastRenderer forcastData={first} darkMode={darkMode} activeC={activeC}/>
-            <ForcastRenderer forcastData={second} darkMode={darkMode} activeC={activeC}/>
-            <ForcastRenderer forcastData={third} darkMode={darkMode} activeC={activeC}/>
-            <ForcastRenderer forcastData={fourth} darkMode={darkMode} activeC={activeC}/>
-            <ForcastRenderer forcastData={fifth} darkMode={darkMode} activeC={activeC}/>
+            <ForcastRenderer forcastData={first} darkMode={darkMode} activeC={activeC} loading={loading}/>
+            <ForcastRenderer forcastData={second} darkMode={darkMode} activeC={activeC} loading={loading}/>
+            <ForcastRenderer forcastData={third} darkMode={darkMode} activeC={activeC} loading={loading}/>
+            <ForcastRenderer forcastData={fourth} darkMode={darkMode} activeC={activeC} loading={loading}/>
+            <ForcastRenderer forcastData={fifth} darkMode={darkMode} activeC={activeC} loading={loading}/>
           </section>
         </div>
       </div>
@@ -65,7 +67,7 @@ export const HourlyForecast = ({ weatherData,darkMode,activeC }) => {
   );
 };
 
-const ForcastRenderer = ({ forcastData,darkMode,activeC }) => {
+const ForcastRenderer = ({ forcastData,darkMode,activeC,loading }) => {
   const [weatherIcon, setWeatherIcon] = useState("");
   const [winddir, setWindDir] = useState("");
   useEffect(() => {
@@ -90,7 +92,11 @@ const ForcastRenderer = ({ forcastData,darkMode,activeC }) => {
 
   return (
     <>
-      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} shadow-lg  flex flex-col justify-center items-center rounded-2xl h-full w-full`}>
+      <div className={`${
+            loading
+              ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
+              : ""
+          } ${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} shadow-lg  flex flex-col justify-center items-center rounded-2xl h-full w-full`}>
         {forcastData[0] && (
           <>
             <span>{convertTimeFormat(forcastData[0].datetime)}</span>
@@ -130,5 +136,6 @@ ForcastRenderer.propTypes = {
     PropTypes.object.isRequired,
   ]),
   darkMode: PropTypes.bool.isRequired,
-  activeC: PropTypes.bool.isRequired
+  activeC: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired
 };

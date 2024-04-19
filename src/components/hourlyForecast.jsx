@@ -96,7 +96,7 @@ const ForcastRenderer = ({ forcastData,darkMode,activeC,loading }) => {
             loading
               ? "rounded-md animated-background bg-gradient-to-r from-slate-300 via-gray-200 to-slate-300"
               : ""
-          } ${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} shadow-lg  flex flex-col justify-center items-center rounded-2xl h-full w-full max-[640px]:w-12`}>
+          } ${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} shadow-lg  flex flex-col justify-center items-center rounded-2xl h-full w-full max-[640px]:w-[48px]`}>
         {forcastData[0] && (
           <>
             <span className="max-[640px]:text-[15px] text-center">{convertTimeFormat(forcastData[0].datetime)}</span>

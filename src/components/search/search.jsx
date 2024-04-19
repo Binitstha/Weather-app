@@ -74,7 +74,7 @@ export const Search = ({ setWeatherData, darkMode,setLocation }) => {
   };
   return (
     <>
-      <form action="" onSubmit={handleSubmit} className=" transition-all relative z-20">
+      <form action="" onSubmit={handleSubmit} className=" transition-all relative z-20 max-[640px]:w-56">
         <label
           htmlFor="search"
           className={`${
@@ -102,13 +102,13 @@ export const Search = ({ setWeatherData, darkMode,setLocation }) => {
               placeholder="Search for your preferred city..."
               className={`${
                 darkMode ? "bg-slate-900 text-white" : "bg-slate-300 text-black"
-              } w-96 flex justify-center items-center outline-none max-[640px]:w-28 max-[640px]:text-ellipsis`}
+              } focus:text-ellipsis w-96 flex justify-center items-center outline-none max-[640px]:w-28 max-[640px]:text-ellipsis`}
             />
             <i
               onClick={clear}
               className={`${
                 darkMode ? "text-white" : "text-black"
-              } fa-solid fa-circle-xmark cursor-pointer max-[640px]:text-sm`}
+              } fa-solid fa-circle-xmark cursor-pointer max-[640px]:text-sm max-[640px]:ml-2`}
             ></i>
           </div>
           <button type="submit">

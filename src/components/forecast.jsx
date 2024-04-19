@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
 import icons from "../icons/weatherIcon";
+import { CelciusToFahrenheit } from "../script/tempConverter";
 
-export const Forecast = ({ location,darkMode }) => {
+export const Forecast = ({ location,darkMode,activeC }) => {
   const [forcastData, setforecastData] = useState([]);
   const [input, setInput] = useState("");
 
@@ -52,11 +53,11 @@ export const Forecast = ({ location,darkMode }) => {
           {
             forcastData && forcastData.days && 
             <>
-            <ForcastRenderer data={forcastData.days} value={0} darkMode={darkMode}/>
-            <ForcastRenderer data={forcastData.days} value={1} darkMode={darkMode}/>
-            <ForcastRenderer data={forcastData.days} value={2} darkMode={darkMode}/>
-            <ForcastRenderer data={forcastData.days} value={3} darkMode={darkMode}/>
-            <ForcastRenderer data={forcastData.days} value={4} darkMode={darkMode}/>
+            <ForcastRenderer data={forcastData.days} value={0} darkMode={darkMode} activeC={activeC}/>
+            <ForcastRenderer data={forcastData.days} value={1} darkMode={darkMode} activeC={activeC}/>
+            <ForcastRenderer data={forcastData.days} value={2} darkMode={darkMode} activeC={activeC}/>
+            <ForcastRenderer data={forcastData.days} value={3} darkMode={darkMode} activeC={activeC}/>
+            <ForcastRenderer data={forcastData.days} value={4} darkMode={darkMode} activeC={activeC}/>
             </>
           }
         </section>
@@ -65,7 +66,7 @@ export const Forecast = ({ location,darkMode }) => {
   );
 };
 
-const ForcastRenderer = ({data,value}) => {
+const ForcastRenderer = ({data,value,activeC}) => {
   const months = [
     "JAN",
     "FEB",
@@ -94,9 +95,9 @@ const ForcastRenderer = ({data,value}) => {
     <>
       {
         <div className=" h-8 flex justify-around items-center">
-          <i className={`${icons.map((icon)=>icon[data[value].icon])} text-2xl`}></i>
-          <span>{data[value].temp} &deg;F</span>
-          <span>{`${days[(date.getDay()+value)%7]},${date.getDate()+value} ${months[date.getMonth()+1]}`}</span>
+          <i className={` w-10 flex justify-center items-center ${icons.map((icon)=>icon[data[value].icon])} text-2xl`}></i>
+          <span className=" w-14 flex justify-center items-center">{!activeC? `${Math.ceil(CelciusToFahrenheit(parseInt(data[value].temp)))}°C`: `${data[value].temp}°F`}</span>
+          <span className=" w-28 flex justify-center items-center">{`${days[(date.getDay()+value)%7]},${date.getDate()+value} ${months[date.getMonth()+1]}`}</span>
         </div>
       }
     </>
@@ -105,11 +106,12 @@ const ForcastRenderer = ({data,value}) => {
 
 Forecast.propTypes = {
   location: PropTypes.string.isRequired,
-  darkMode: PropTypes.bool.isRequired
-
+  darkMode: PropTypes.bool.isRequired,
+  activeC: PropTypes.bool.isRequired
 };
 
 ForcastRenderer.propTypes = {
   data: PropTypes.array.isRequired,
   value: PropTypes.number.isRequired,
+  activeC: PropTypes.bool.isRequired
 }

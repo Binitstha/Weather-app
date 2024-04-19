@@ -1,8 +1,9 @@
 import { PropTypes } from "prop-types";
 import { useEffect, useState } from "react";
 import icons from "../icons/weatherIcon";
+import { CelciusToFahrenheit } from "../script/tempConverter";
 
-export const HourlyForecast = ({ weatherData,darkMode }) => {
+export const HourlyForecast = ({ weatherData,darkMode,activeC }) => {
   const [hourData, sethourData] = useState([]);
   const [currentTime, setCurrentTime] = useState("");
   const [first, setFirst] = useState([]);
@@ -52,11 +53,11 @@ export const HourlyForecast = ({ weatherData,darkMode }) => {
         <div className="h-full flex flex-col mx-7 justify-start items-center">
           <h3>Hourly forecast : </h3>
           <section className=" flex w-full gap-5 p-2 justify-evenly h-full items-center">
-            <ForcastRenderer forcastData={first} darkMode={darkMode} />
-            <ForcastRenderer forcastData={second} darkMode={darkMode} />
-            <ForcastRenderer forcastData={third} darkMode={darkMode} />
-            <ForcastRenderer forcastData={fourth} darkMode={darkMode} />
-            <ForcastRenderer forcastData={fifth} darkMode={darkMode} />
+            <ForcastRenderer forcastData={first} darkMode={darkMode} activeC={activeC}/>
+            <ForcastRenderer forcastData={second} darkMode={darkMode} activeC={activeC}/>
+            <ForcastRenderer forcastData={third} darkMode={darkMode} activeC={activeC}/>
+            <ForcastRenderer forcastData={fourth} darkMode={darkMode} activeC={activeC}/>
+            <ForcastRenderer forcastData={fifth} darkMode={darkMode} activeC={activeC}/>
           </section>
         </div>
       </div>
@@ -64,7 +65,7 @@ export const HourlyForecast = ({ weatherData,darkMode }) => {
   );
 };
 
-const ForcastRenderer = ({ forcastData,darkMode }) => {
+const ForcastRenderer = ({ forcastData,darkMode,activeC }) => {
   const [weatherIcon, setWeatherIcon] = useState("");
   const [winddir, setWindDir] = useState("");
   useEffect(() => {
@@ -96,8 +97,7 @@ const ForcastRenderer = ({ forcastData,darkMode }) => {
             <span className="my-1">
               <i className={`${weatherIcon} text-3xl`}></i>
             </span>
-            <span>{}</span>
-            <span>{forcastData[0].temp} &deg;F</span>
+            <span>{!activeC? `${Math.ceil(CelciusToFahrenheit(parseInt(forcastData[0].temp)))} °C`: `${forcastData[0].temp} °F`}</span>
             <span className="flex justify-center items-center">
               <img
                 src="public\image.png"
@@ -120,8 +120,8 @@ HourlyForecast.propTypes = {
     PropTypes.array.isRequired,
     PropTypes.object.isRequired,
   ]),
-  darkMode: PropTypes.bool.isRequired
-
+  darkMode: PropTypes.bool.isRequired,
+  activeC: PropTypes.bool.isRequired
 };
 
 ForcastRenderer.propTypes = {
@@ -129,5 +129,6 @@ ForcastRenderer.propTypes = {
     PropTypes.array.isRequired,
     PropTypes.object.isRequired,
   ]),
-    darkMode: PropTypes.bool.isRequired
+  darkMode: PropTypes.bool.isRequired,
+  activeC: PropTypes.bool.isRequired
 };

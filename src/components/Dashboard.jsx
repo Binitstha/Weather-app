@@ -11,6 +11,8 @@ export default function Dashboard() {
   const [location, setLocation] = useState("");
   const [weatherData, setWeatherData] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
+  const [activeC, setActiveC] = useState(false);
+  const [activeT, setActiveT] = useState(true);
 
   const weatherDataFetch = async () => {
     if (location == "") {
@@ -61,29 +63,59 @@ export default function Dashboard() {
     }
   }, []);
 
-  useEffect(()=>{
-    if(location !== "")
-    {
-      weatherDataFetch()
+  useEffect(() => {
+    if (location !== "") {
+      weatherDataFetch();
+      console.log(location);
     }
-  },[location])
+  }, [location]);
   return (
     <>
-      <main className={`w-screen h-screen ${!darkMode ? "bg-gradient-to-br from-gray-200 to-gray-400":"bg-gradient-to-b from-gray-800 to-gray-900"}`}>
+      <main
+        className={`w-screen h-screen ${
+          !darkMode
+            ? "bg-gradient-to-br from-gray-200 to-gray-400"
+            : "bg-gradient-to-b from-gray-800 to-gray-900"
+        }`}
+      >
         <div className="pt-3 h-screen mx-32">
           <nav className="flex justify-around items-center">
             <ThemeBtn setDarkMode={setDarkMode} darkMode={darkMode} />
-            <Search setWeatherData={setWeatherData} setLocation={setLocation} location={location} darkMode={darkMode}/>
-            <CurrentLocation setLocation={setLocation} darkMode={darkMode}/>
+            <Search
+              setWeatherData={setWeatherData}
+              setLocation={setLocation}
+              location={location}
+              darkMode={darkMode}
+            />
+            <CurrentLocation setLocation={setLocation} darkMode={darkMode} />
           </nav>
           <section className="m-10 mx-32 gap-10 flex flex-col justify-center items-center ">
             <div className="flex gap-8 justify-between  w-full">
-              <Times location={location} weatherData={weatherData} darkMode={darkMode}/>
-              <Temperature weatherData={weatherData} darkMode={darkMode}/>
+              <Times
+                location={location}
+                weatherData={weatherData}
+                darkMode={darkMode}
+              />
+              <Temperature
+                weatherData={weatherData}
+                darkMode={darkMode}
+                activeC={activeC}
+                activeT={activeT}
+                setActiveC={setActiveC}
+                setActiveT={setActiveT}
+              />
             </div>
             <div className="flex gap-8 justify-between w-full">
-              <Forecast location={location} darkMode={darkMode}/>
-              <HourlyForecast weatherData={weatherData} darkMode={darkMode}/>
+              <Forecast
+                location={location}
+                darkMode={darkMode}
+                activeC={activeC}
+              />
+              <HourlyForecast
+                weatherData={weatherData}
+                darkMode={darkMode}
+                activeC={activeC}
+              />
             </div>
           </section>
         </div>

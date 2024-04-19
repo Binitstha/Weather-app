@@ -9,8 +9,8 @@ export const ThemeBtn = ({ setDarkMode, darkMode }) => {
         <div
           onClick={handleClick}
           className={`${
-            darkMode ? "bg-slate-900" : "bg-white"
-          } h-7 w-14 shadow-2xl rounded-2xl px-1 items-center flex cursor-pointer relative`}
+            darkMode ? "bg-slate-900 shadow-gray-900" : "bg-slate-300 shadow-gray-400"
+          } h-7 w-14 shadow-lg rounded-2xl px-1 items-center flex cursor-pointer relative`}
         >
           <div
             className={`absolute h-5 w-5 rounded-full duration-500 transition-transform transform ${

@@ -2,8 +2,9 @@ import { PropTypes } from "prop-types";
 import { useEffect, useState } from "react";
 import Loading from "./animation/loading";
 import icons from "../icons/weatherIcon";
+import { CelciusToFahrenheit } from "../script/tempConverter";
 
-export const Temperature = ({ weatherData,darkMode }) => {
+export const Temperature = ({ weatherData, darkMode,activeC,activeT ,setActiveC,setActiveT }) => {
   const [temperature, setTemperature] = useState("");
   const [feelsLiketemperature, setFeelsLikeTemperature] = useState("");
   const [sunrise, setSunrise] = useState("");
@@ -47,19 +48,25 @@ export const Temperature = ({ weatherData,darkMode }) => {
   const weatherIcon = icons
     .map((icon) => icon[conditionsIcon])
     .filter((icon) => icon)[0];
+
   return (
     <>
-      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} flex gap-5 justify-start items-center h-64 w-full rounded-xl p-3 `}>
-        {/* {weatherData && <div>{JSON.stringify(weatherData)}</div>} */}
-        <section className="  h-full w-40">
+      <div
+        className={`${
+          darkMode
+            ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl"
+            : "bg-slate-300 shadow-lg shadow-slate-400 text-black"
+        } flex gap-2 justify-around items-center h-64 w-full rounded-xl p-3 `}
+      >
+        <section className=" h-full w-40">
           <div className="h-24 text-xl  flex flex-col justify-center items-center">
             {!temperature && !feelsLiketemperature ? (
               <Loading />
             ) : (
               <div className="transition-all">
-                <div className="text-6xl">{temperature}</div>
+                <div className="text-6xl">{activeT? `${Math.ceil(CelciusToFahrenheit(parseInt(temperature)))}°C`:temperature}</div>
                 <div className="text-lg">
-                  Feels like: {feelsLiketemperature}
+                  Feels like: {activeT? `${Math.ceil(CelciusToFahrenheit(parseInt(temperature)))}°C`:temperature}
                 </div>
               </div>
             )}
@@ -83,29 +90,54 @@ export const Temperature = ({ weatherData,darkMode }) => {
             </div>
           </div>
         </section>
+        <section className="h-full pt-2 w-10 flex flex-col justify-start">
+          <div
+            onClick={() => {
+              setActiveT(!activeT);
+              setActiveC(!activeC);
+            }}
+            className={`${activeC ? "text-3xl" : "text-md"} transition-all mx-auto cursor-pointer`}
+          >
+            &deg;F
+          </div>
+          <hr
+            className={`${
+              darkMode ? "border-white" : " border-black"
+            } w-6 mx-auto`}
+          />
+          <div
+            onClick={() => {
+              setActiveC(!activeC);
+              setActiveT(!activeT);
+            }}
+            className={`${activeT ? "text-3xl" : "text-md"} transition-all mx-auto cursor-pointer`}
+          >
+            &deg;C
+          </div>
+        </section>
         <section className="flex flex-col h-full w-48 justify-evenly items-center gap-3">
           <div className="h-32 w-32 flex justify-center items-center">
             <i className={`${weatherIcon} text-9xl`}></i>
           </div>
           <div className="text-xl">{conditions}</div>
         </section>
-        <section className="flex flex-wrap w-64 h-full justify-center items-center gap-2">
-          <div className="h-28 flex-col flex justify-center items-center w-28">
+        <section className="flex flex-wrap w-52 h-full justify-center items-center gap-2">
+          <div className="h-28 flex-col flex justify-center items-center w-24">
             <i className="fa-duotone fa-water text-5xl"></i>
             <span className="mt-1">{humidity}%</span>
             <span>humidity</span>
           </div>
-          <div className="h-28 flex flex-col justify-center items-center w-28">
+          <div className="h-28 flex flex-col justify-center items-center w-24">
             <i className="fa-duotone fa-wind text-5xl"></i>
             <span className="mt-1">{wind} km/h</span>
             <span>wind speed</span>
           </div>
-          <div className="h-28 flex flex-col justify-center items-center w-28">
+          <div className="h-28 flex flex-col justify-center items-center w-24">
             <i className="fa-duotone fa-gauge text-5xl"></i>
             <span className="mt-1">{pressure} hpa</span>
             <span>Pressure</span>
           </div>
-          <div className="h-28 flex flex-col justify-center items-center w-28">
+          <div className="h-28 flex flex-col justify-center items-center w-24">
             <i className="fa-sharp fa-regular text-5xl fa-keyboard-brightness fa-rotate-180"></i>
             <span className="mt-1">{uv} mW</span>
             <span>UV</span>
@@ -119,6 +151,9 @@ export const Temperature = ({ weatherData,darkMode }) => {
 Temperature.propTypes = {
   weatherData: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
     .isRequired,
-  darkMode: PropTypes.bool.isRequired
-
+  darkMode: PropTypes.bool.isRequired,
+  activeC: PropTypes.bool.isRequired,
+  activeT: PropTypes.bool.isRequired,
+  setActiveC: PropTypes.func.isRequired,
+  setActiveT: PropTypes.func.isRequired
 };

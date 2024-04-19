@@ -1,4 +1,5 @@
 import { PropTypes } from "prop-types";
+import moment from "moment-timezone";
 import { useEffect, useState } from "react";
 export const Times = ({ weatherData, darkMode }) => {
   const date = new Date();
@@ -27,39 +28,41 @@ export const Times = ({ weatherData, darkMode }) => {
     "SATURDAY",
   ];
 
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const hour =
-    currentTime.getHours() > 12
-      ? currentTime.getHours() % 12
-      : currentTime.getHours();
-  const minute = currentTime.getMinutes();
-  const second = currentTime.getSeconds();
+  const [time, setTime] = useState("");
 
   const [data, setData] = useState([]);
   useEffect(() => {
     const data = weatherData;
     setData(data);
+    if(data && data.timezone){
+      setTime(moment().tz(data.timezone).format('HH:mm'));
+    }
   }, [weatherData]);
 
+    const convertTimeFormat = (timeString) => {
+    const time = new Date(`2000-01-01T${timeString}`);
+    const formattedTime = time.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    return formattedTime;
+  };
   return (
     <>
-      <div className={`${darkMode ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl":"bg-slate-300 shadow-lg shadow-slate-400 text-black"} h-64 w-[30rem] rounded-xl flex flex-col justify-evenly items-center p-3`}>
-        <div className="text-2xl  w-fit h-20 flex justify-center items-center text-center">{weatherData.resolvedAddress}</div>
+      <div
+        className={`${
+          darkMode
+            ? "bg-gradient-to-bl from-gray-700 to-gray-800 text-white shadow-slate-800 shadow-2xl"
+            : "bg-slate-300 shadow-lg shadow-slate-400 text-black"
+        } h-64 w-[30rem] rounded-xl flex flex-col justify-evenly items-center p-3`}
+      >
+        <div className="text-2xl  w-fit h-20 flex justify-center items-center text-center">
+          {weatherData.resolvedAddress}
+        </div>
         <div className="flex justify-center items-center flex-col">
-          <div className="text-3xl">
-            {hour < 10 ? `0${hour}` : hour}:
-            {minute < 10 ? `0${minute}` : minute}:
-            {second < 10 ? `0${second}` : second}{" "}
-            {date.getHours() >= 12 ? "PM" : "AM"}
-          </div>
+          <div className="text-3xl">{convertTimeFormat(time)}</div>
           <div>
             {days[date.getDay() + 1]},{date.getDate()}{" "}
             {months[date.getMonth() + 1]}

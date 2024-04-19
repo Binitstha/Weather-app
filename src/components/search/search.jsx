@@ -79,7 +79,7 @@ export const Search = ({ setWeatherData, darkMode,setLocation }) => {
           className={`${
             searching ? "rounded-t-3xl shadow-sm" : "rounded-3xl shadow-xl"
           } ${
-            darkMode ? "bg-slate-900 text-white" : "bg-slate-300 text-black"
+            darkMode ? "bg-slate-900" : "bg-slate-300"
           } w-fit p-2 px-5 m-2 flex justify-center items-center gap-5`}
         >
           <div className="flex justify-center items-center">
@@ -100,8 +100,8 @@ export const Search = ({ setWeatherData, darkMode,setLocation }) => {
               }}
               placeholder="Search for your preferred city..."
               className={`${
-                darkMode ? "bg-slate-900 text-white" : "bg-slate-300 text-slate-900"
-              } w-96 text-white flex justify-center items-center outline-none`}
+                darkMode ? "bg-slate-900 text-white" : "bg-slate-300 text-black"
+              } w-96 flex justify-center items-center outline-none`}
             />
             <i
               onClick={clear}
